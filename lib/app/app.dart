@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'theme.dart';
+import '../features/auth/presentation/login_screen.dart';
+
 class CardVaultApp extends StatelessWidget {
   const CardVaultApp({super.key});
 
@@ -11,25 +14,27 @@ class CardVaultApp extends StatelessWidget {
 
       theme: ThemeData(
         useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF00695C)),
-        scaffoldBackgroundColor: const Color(0xFFF7F9F9),
+        colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primary),
       ),
 
-      home: const HomeScreen(),
+      home: const WelcomeScreen(),
     );
   }
 }
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class WelcomeScreen extends StatelessWidget {
+  const WelcomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.background,
+
       body: SafeArea(
         child: Center(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
+            padding: const EdgeInsets.all(24),
+
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -37,75 +42,88 @@ class HomeScreen extends StatelessWidget {
                 Container(
                   width: 90,
                   height: 90,
+
                   decoration: BoxDecoration(
-                    color: const Color(0xFF00695C),
+                    color: AppColors.primary,
                     borderRadius: BorderRadius.circular(24),
                   ),
+
                   child: const Icon(
                     Icons.credit_card_rounded,
-                    color: Colors.white,
+                    color: AppColors.white,
                     size: 50,
                   ),
                 ),
 
                 const SizedBox(height: 24),
 
-                // App name
                 const Text(
                   'CardVault',
                   style: TextStyle(
                     fontSize: 32,
                     fontWeight: FontWeight.bold,
-                    letterSpacing: 0.5,
+                    color: AppColors.textPrimary,
+                  ),
+                ),
+
+                const SizedBox(height: 8),
+
+                const Text(
+                  'Your cards. Your control.',
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: AppColors.textSecondary,
+                  ),
+                ),
+
+                const SizedBox(height: 40),
+
+                const Text(
+                  'Welcome to CardVault',
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.textPrimary,
                   ),
                 ),
 
                 const SizedBox(height: 10),
 
-                // Tagline
-                Text(
-                  'Your cards. Your control.',
-                  style: TextStyle(fontSize: 16, color: Colors.grey.shade600),
-                ),
-
-                const SizedBox(height: 40),
-
-                // Welcome message
                 const Text(
-                  'Welcome to CardVault',
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
-                ),
-
-                const SizedBox(height: 10),
-
-                Text(
                   'Manage your debit and credit cards\n'
                   'securely from one place.',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 15,
                     height: 1.5,
-                    color: Colors.grey.shade600,
+                    color: AppColors.textSecondary,
                   ),
                 ),
 
                 const SizedBox(height: 40),
 
-                // Temporary button
                 SizedBox(
                   width: double.infinity,
                   height: 52,
+
                   child: ElevatedButton(
                     onPressed: () {
-                      // Login/dashboard will be added later.
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const LoginScreen(),
+                        ),
+                      );
                     },
+
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF00695C),
-                      foregroundColor: Colors.white,
+                      backgroundColor: AppColors.primary,
+                      foregroundColor: AppColors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(14),
                       ),
                     ),
+
                     child: const Text(
                       'Get Started',
                       style: TextStyle(
