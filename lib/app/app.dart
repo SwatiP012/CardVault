@@ -1,23 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'theme.dart';
 import '../features/auth/presentation/login_screen.dart';
+import '../features/auth/state/auth_provider.dart';
+import '../features/cards/state/cards_provider.dart';
 
 class CardVaultApp extends StatelessWidget {
   const CardVaultApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'CardVault',
-      debugShowCheckedModeBanner: false,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => createAuthProvider()),
 
-      theme: ThemeData(
-        useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primary),
+        ChangeNotifierProvider(create: (_) => createCardsProvider()),
+      ],
+      child: MaterialApp(
+        title: 'CardVault',
+        debugShowCheckedModeBanner: false,
+
+        theme: ThemeData(
+          useMaterial3: true,
+          colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primary),
+        ),
+
+        home: const WelcomeScreen(),
       ),
-
-      home: const WelcomeScreen(),
     );
   }
 }
@@ -119,6 +129,7 @@ class WelcomeScreen extends StatelessWidget {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.primary,
                       foregroundColor: AppColors.white,
+
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(14),
                       ),

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:practice/features/auth/state/auth_provider.dart';
+import 'package:provider/provider.dart';
+import 'package:practice/features/cards/state/cards_provider.dart';
 
 import '../../../app/theme.dart';
 import '../../dashboard/presentation/dashboard_screen.dart';
@@ -26,11 +29,34 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
-  void _login() {
-    if (_formKey.currentState!.validate()) {
+  Future<void> _login() async {
+    if (!_formKey.currentState!.validate()) {
+      return;
+    }
+
+    final authProvider = context.read<AuthProvider>();
+
+    final success = await authProvider.login(
+      mobile: _mobileController.text.trim(),
+      pin: _pinController.text.trim(),
+    );
+
+    if (!mounted) {
+      return;
+    }
+
+    if (success) {
+      await context.read<CardsProvider>().loadCards();
+
+      if (!mounted) return;
+
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const DashboardScreen()),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(authProvider.error?.message ?? 'Login failed.')),
       );
     }
   }
@@ -283,3 +309,6 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 }
+
+// Mobile: 9876543210
+// PIN: 1234
